@@ -1,0 +1,1 @@
+# This task demonstrates the implementation of a Kafka-based messaging system using Spring Boot, where Kafka Producers and Consumers are set up to handle message publishing and consumption. Postman is used to test and trigger the producer and consumer endpoints.
