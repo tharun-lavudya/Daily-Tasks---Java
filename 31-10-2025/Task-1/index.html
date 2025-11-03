@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Submission</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+<h2>User Submission Form</h2>
+<form id="submissionForm">
+<input type="text" id="name" class="form-control" placeholder="Name" required><br>
+<input type="email" id="email" class="form-control" placeholder="Email" required><br>
+<textarea id="message" class="form-control" placeholder="Message" required></textarea><br>
+<button type="submit" class="btn btn-primary">Submit</button>
+</form>
+ 
+  <hr>
+ 
+  <h3>All Submissions</h3>
+<button id="fetchSubmissions" class="btn btn-secondary mb-3">Fetch Submissions</button>
+<div id="submissionsList"></div>
+ 
+  <script>
+    const apiBaseURL = "https://vkflcslul6.execute-api.ap-south-1.amazonaws.com/prod";
+ 
+    // Handle form submission (POST)
+    document.getElementById("submissionForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+ 
+      const data = {
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value
+      };
+ 
+      try {
+        const response = await fetch(`${apiBaseURL}/submit`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+ 
+        const text = await response.text();
+        alert(text);
+ 
+        // Optionally, clear the form after successful submission
+        if(response.ok) {
+          e.target.reset();
+        }
+ 
+      } catch (error) {
+        alert("Error submitting form: " + error.message);
+      }
+    });
+ 
+    // Fetch all submissions (GET)
+    document.getElementById("fetchSubmissions").addEventListener("click", async () => {
+      try {
+        const response = await fetch(`${apiBaseURL}/submissions`, {
+          method: "GET"
+        });
+ 
+        if(!response.ok) throw new Error("Failed to fetch submissions");
+ 
+        const submissions = await response.json();
+ 
+        // Clear existing list
+        const listDiv = document.getElementById("submissionsList");
+        listDiv.innerHTML = "";
+ 
+        if(submissions.length === 0){
+          listDiv.innerHTML = "<p>No submissions found.</p>";
+          return;
+        }
+ 
+        // Create a table for displaying submissions
+        const table = document.createElement("table");
+        table.className = "table table-striped";
+ 
+        // Table header
+        table.innerHTML = `
+<thead>
+<tr>
+<th>Name</th><th>Email</th><th>Message</th><th>Submission Date</th><th>Status</th>
+</tr>
+</thead>
+        `;
+ 
+        // Table body
+        const tbody = document.createElement("tbody");
+        submissions.forEach(sub => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+<td>${sub.name}</td>
+<td>${sub.email}</td>
+<td>${sub.message}</td>
+<td>${sub.submissionDate}</td>
+<td>${sub.status}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+        table.appendChild(tbody);
+        listDiv.appendChild(table);
+ 
+      } catch (error) {
+        alert("Error fetching submissions: " + error.message);
+      }
+    });
+</script>
+</body>
+</html>
