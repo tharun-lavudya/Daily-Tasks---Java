@@ -52,13 +52,6 @@ Data is processed by **AWS Lambda functions**, routed via **API Gateway**, and s
   - Store the record in DynamoDB
   - Return a success or error JSON response
 
-**Example Response:**
-```json
-{
-  "message": "Submission saved successfully!",
-  "submissionId": "abc123"
-}
-
 ##🔍 Query Lambda (QueryFunction)
 
 Trigger: GET /submissions via API Gateway
