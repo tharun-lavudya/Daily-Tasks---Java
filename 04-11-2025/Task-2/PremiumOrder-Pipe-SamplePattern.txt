@@ -1,0 +1,12 @@
+{
+  "eventName": "MODIFY",
+  "dynamodb": {
+    "OldImage": {
+      "status": { "S": "pending" }
+    },
+    "NewImage": {
+      "status": { "S": "shipped" },
+      "customerEmail": { "S": "user@example.com" }
+    }
+  }
+}

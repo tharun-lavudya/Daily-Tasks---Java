@@ -1,0 +1,9 @@
+{
+  "eventName": "INSERT",
+  "dynamodb": {
+    "NewImage": {
+      "status": { "S": "pending" },
+      "customerEmail": { "S": "user@example.com" }
+    }
+  }
+}

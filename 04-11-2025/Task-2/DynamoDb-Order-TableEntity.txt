@@ -1,0 +1,14 @@
+{
+  "orderId": {
+    "S": "001"
+  },
+  "amount": {
+    "N": "150"
+  },
+  "customerEmail": {
+    "S": "user@example.com"
+  },
+  "status": {
+    "S": "pending"
+  }
+}
